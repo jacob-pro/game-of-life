@@ -1,7 +1,12 @@
 focus ='worker|distributor'
 ignore = 'strings|fmt'
 
-gol:
+.DEFAULT_GOAL := gol
+
+rust:
+	go env -w CGO_LDFLAGS_ALLOW=".*" CGO_CFLAGS_ALLOW=".*" && cd ../rust && sh build.sh
+
+gol: rust
 	go build
 	./gameoflife
 
@@ -9,7 +14,7 @@ gol:
 # Add -run /[NAME]
 # eg: -run /16x16x2-0
 # to run a specific test
-test:
+test: rust
 	go test
 
 
